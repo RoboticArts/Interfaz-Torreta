@@ -26,3 +26,21 @@ void MainWindow::Accion(void)
 
 
 }
+
+
+void MainWindow::on_agregar_clicked()
+{
+  QString nombre;
+  nombre = ui->nombre->text();
+  if(nombre.isEmpty())
+      return;
+  ui->listWidget->addItem(nombre);
+}
+
+
+
+
+void MainWindow::on_eliminar_clicked()
+{
+    delete ui -> listWidget -> currentItem();
+}

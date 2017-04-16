@@ -25,6 +25,9 @@ public slots:
 
     void Accion(void);
 
+private slots:
+    void on_agregar_clicked();
+    void on_eliminar_clicked();
 };
 
 
