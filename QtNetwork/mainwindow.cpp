@@ -22,24 +22,48 @@ bool CConnection::SendMessage(const QString &message)
     return write(data) == data.size();
 }
 
+
+
 void CConnection::Read(void)  //Lectura del Servidor cuando el cliente manda un dato
 {
-    QString read = readAll();
+    QString read = readAll(); //Se modifica
+    QString auxRead = read; // Copia de seguridad
 
     //((MainWindow*)(parent()->parent()))->ui->plainTextEditServer->insertPlainText(QString("Read: ") + read + '\n');
 
-    //Se descompone el prefijo X del numero: X16: se obtiene X y 16
+    //Read es un buffer. Se halla la ultima X y se trunca el valor. X14X56X35 se obtiene 35 (el ultimo valor)
 
     if(read.startsWith("X"))
-        ((MainWindow*)(parent()->parent()))->ui->SliderControladoX -> setValue(read.right(2).toInt());
-        //d -> EditPlainTextServer(read.right(2));
+    {
+        int n = read.lastIndexOf("X");
+        read =  read.remove(0,n+1);
+        ((MainWindow*)(parent()->parent()))->ui->SliderControladoX -> setValue(read.toInt());
+
+    }
 
     if(read.startsWith("Y"))
-        ((MainWindow*)(parent()->parent()))->ui->SliderControladoY -> setValue(read.right(2).toInt());
-        //d -> EditPlainTextServer(read.right(2));
+    {
+        int n = read.lastIndexOf("Y");
+        read =  read.remove(0,n+1);
+        ((MainWindow*)(parent()->parent()))->ui->SliderControladoY -> setValue(read.toInt());
 
-    d -> EditPlainTextServer(QString("Read: ") + read + '\n');
+    }
+
+    if(read.startsWith("S"))
+    {
+        // d -> EditPlainTextServer(read.remove(0,1));
+    }
+
+    if(read.startsWith("A"))
+    {
+        // d -> EditPlainTextServer(read.remove(0,1));
+    }
+
+
+    d -> EditPlainTextServer(QString("Read(") + read + QString("): ")  + read + '\n');
 }
+
+
 
 CClient::CClient(QObject *parent) :
     QTcpSocket(parent)
@@ -70,6 +94,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui -> pushButtonShoot -> setStyleSheet("background-color: rgba(255,0,0,0.6);  border-style: outset;");
+    ui -> pushButtonArmed -> setStyleSheet("background-color: rgba(255,0,0,0.6);  border-style: outset;");
+
     server = new CServer(this);
     client = new CClient(this);
 
@@ -80,6 +107,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect(ui->SliderX, SIGNAL(sliderReleased()), this, SLOT(ServerNewValue()));
     connect(ui->SliderX, SIGNAL(valueChanged(int)), this, SLOT(SliderXSend()));
     connect(ui->SliderY, SIGNAL(valueChanged(int)), this, SLOT(SliderYSend()));
+
+    connect(ui->pushButtonArmed, SIGNAL(pressed()), this, SLOT(ArmedSendPressed()));
+    connect(ui->pushButtonArmed,SIGNAL(released()),this,SLOT(ArmedSendReleased()));
+    connect(ui->pushButtonShoot, SIGNAL(pressed()), this, SLOT(ShootSendOne()));
+    connect(ui->pushButtonShoot, SIGNAL(released()),this,SLOT(ShootSendZero()));
 
     //connect(ui->pushButtonClientConnectDisconnect, SIGNAL(clicked(bool)), this, SLOT(ClientConnectDisconnect()));
     connect(ui->pushButtonClientSend             , SIGNAL(clicked(bool)), this, SLOT(ClientSend()));
@@ -281,6 +313,41 @@ bool MainWindow::SliderYSend(void)
     return client->write(data) == data.size();
 }
 
+
+
+
+bool MainWindow::ShootSendZero()
+{
+    ui -> pushButtonShoot -> setStyleSheet("background-color: rgba(255,0,0,0.6);  border-style: outset;");
+    QString text = "S0";
+    QByteArray data = text.toUtf8();
+    return client->write(data) == data.size();
+}
+
+bool MainWindow::ShootSendOne()
+{
+    ui -> pushButtonShoot -> setStyleSheet("background-color: rgba(0,255,0,0.6);  border-style: outset;");
+    QString text = "S1";
+    QByteArray data = text.toUtf8();
+    return client->write(data) == data.size();
+}
+
+bool MainWindow::ArmedSendPressed()
+{
+    ui -> pushButtonArmed -> setStyleSheet("background-color: rgba(0,255,0,0.6);  border-style: outset;");
+    QString text = "A1";
+    QByteArray data = text.toUtf8();
+    return client->write(data) == data.size();
+}
+
+void MainWindow::ArmedSendReleased()
+{
+    ui -> pushButtonArmed -> setStyleSheet("background-color: rgba(255,0,0,0.6);  border-style: outset;");
+
+}
+
+
+
 void MainWindow::ClientRead(void)
 {
     QString read = client ->readAll(); // Solo se puede leer una única vez, ya que una vez leido el valor de readAll se borra
@@ -305,3 +372,4 @@ void MainWindow::setSliderControladoY(int value)
 {
     ui -> SliderControladoY -> setValue(value);
 }
+
