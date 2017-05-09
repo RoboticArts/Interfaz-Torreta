@@ -12,11 +12,11 @@ Dialog::Dialog(QWidget *parent) :
 
     connect(ui->checkBoxClient, SIGNAL(clicked(bool)), w, SLOT(ClientConnectDisconnect()));
     connect(ui->checkBoxClient, SIGNAL(clicked(bool)), this, SLOT(LabelClientConnectDisconnect()));
-    //connect(ui->checkBoxClient, SIGNAL(clicked(bool)), this, SLOT(EnableDisableServerSettings()));
+    connect(ui->checkBoxClient, SIGNAL(clicked(bool)), this, SLOT(EnableDisableServerSettings()));
 
     connect(ui->checkBoxServer, SIGNAL(clicked(bool)), w, SLOT(ServerActivateDeactivate()));
     connect(ui->checkBoxServer, SIGNAL(clicked(bool)), this, SLOT(LabelServerActivateDesactivate()));
-    //connect(ui->checkBoxServer, SIGNAL(clicked(bool)),this, SLOT(EnableDisableClientSettings()));
+    connect(ui->checkBoxServer, SIGNAL(clicked(bool)),this, SLOT(EnableDisableClientSettings()));
 
 }
 
@@ -116,7 +116,9 @@ void Dialog::EnableDisableClientSettings() //Activa o Desactiva el CLIENTE
         ui -> checkBoxClient -> setEnabled(0);
         ui -> lineEditClientRemoteAddress ->setEnabled(0);
         ui -> lineEditClientRemotePort -> setEnabled(0);
-        ui -> labelInformationServerClient -> setText("Actuando como SERVIDOR");
+         w -> LabelInformationServerClient("server");
+       // ui -> labelInformationServerClient -> setText("Actuando como SERVIDOR");
+
     }
     else
     {
@@ -124,7 +126,8 @@ void Dialog::EnableDisableClientSettings() //Activa o Desactiva el CLIENTE
         ui -> checkBoxClient -> setEnabled(1);
         ui -> lineEditClientRemoteAddress ->setEnabled(1);
         ui -> lineEditClientRemotePort -> setEnabled(1);
-        ui -> labelInformationServerClient -> setText("Actuando como");
+        w -> LabelInformationServerClient("nothing");
+       // ui -> labelInformationServerClient -> setText("Actuando como");
     }
 }
 
@@ -135,13 +138,15 @@ void Dialog::EnableDisableServerSettings() //Activa o Desactiva el SERVIDOR
         // Desactiva la configuracion del servidor
         ui -> checkBoxServer -> setEnabled(0);
         ui -> lineEditServerPort -> setEnabled(0);
-        ui -> labelInformationServerClient -> setText("Actuando como CLIENTE");
+        w -> LabelInformationServerClient("client");
+       // ui -> labelInformationServerClient -> setText("Actuando como CLIENTE");
     }
     else
     {
         // Activa la configuración del cliente
         ui -> checkBoxServer -> setEnabled(1);
         ui -> lineEditServerPort -> setEnabled(1);
-        ui -> labelInformationServerClient -> setText("Actuando como");
+        w -> LabelInformationServerClient("nothing");
+       // ui -> labelInformationServerClient -> setText("Actuando como");
     }
 }

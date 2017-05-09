@@ -14,88 +14,6 @@
    <string>QtNetwork</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="labelServer">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>10</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Server</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelClient">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>20</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Client</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditServerMessageToSend">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>171</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditClientMessageToSend">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>80</y>
-      <width>191</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonServerSend">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>80</y>
-      <width>81</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Send</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonClientSend">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>80</y>
-      <width>81</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Send</string>
-    </property>
-   </widget>
    <widget class="QSlider" name="SliderX">
     <property name="geometry">
      <rect>
@@ -235,6 +153,24 @@
     </property>
     <property name="text">
      <string>DISPARAR</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelInformationServerClient">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>50</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Modo: Sin conexión</string>
     </property>
    </widget>
   </widget>
